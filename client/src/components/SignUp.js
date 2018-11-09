@@ -22,6 +22,7 @@ class SignUp extends React.Component {
         const user = this.state;
         e.preventDefault();
 
+
         if(!window.indexedDB) {
             console.log("Not supported");
         }
@@ -57,7 +58,7 @@ class SignUp extends React.Component {
             let q1 = store.getAll();
 
             q1.onsuccess = function(e) {
-                // console.log(q1.result);
+                console.log(q1.result);
             }
 
             tx.oncomplete = function() {

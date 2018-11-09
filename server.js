@@ -4,40 +4,40 @@ const app = express();
 const port = process.env.PORT || 5000;
 
 
-let request = global.indexedDB.open("LoginPage", 1),
-            db,
-            tx,
-            store,
-            index;
+// let request = global.indexedDB.open("LoginPage", 1),
+//             db,
+//             tx,
+//             store,
+//             index;
 
-    request.onupgradeneeded = function(e) {
-        db = request.result
-    }
+//     request.onupgradeneeded = function(e) {
+//         db = request.result
+//     }
 
-    request.onerror = function(e) {
-        console.log("There was an error: "+ e.target.errorCode);
-    }
+//     request.onerror = function(e) {
+//         console.log("There was an error: "+ e.target.errorCode);
+//     }
 
-    request.onsuccess = function(e) {
-        db = request.result;
-        tx = db.transaction("UserDataStore", "readwrite");
-        store = tx.objectStore("UserDataStore");
-        index = store.index("firstName");
+//     request.onsuccess = function(e) {
+//         db = request.result;
+//         tx = db.transaction("UserDataStore", "readwrite");
+//         store = tx.objectStore("UserDataStore");
+//         index = store.index("firstName");
     
-        db.onerror = function(e) {
-            console.log("Error: "+e.target.errorCode);
-        }
+//         db.onerror = function(e) {
+//             console.log("Error: "+e.target.errorCode);
+//         }
     
-        let q1 = store.getAll();
+//         let q1 = store.getAll();
     
-        q1.onsuccess = function() {
-            console.log(q1.result);
-        };
+//         q1.onsuccess = function() {
+//             console.log(q1.result);
+//         };
     
-        tx.oncomplete = function() {
-            db.close()        
-        }
-    }
+//         tx.oncomplete = function() {
+//             db.close()        
+//         }
+//     }
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
