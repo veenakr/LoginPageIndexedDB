@@ -7,6 +7,25 @@ export const userActions = {
     getAll
 };
 
+// export const addUser = (user) => {
+//     return ({
+//     type: 'ADD_USER',
+//     user
+// })};
+
+// export const startAddUser = (userData = {}) => {
+//     return (dispatch) => {
+//         const user = userData;
+
+//         database.ref('users').push(user).then(ref => {
+//             dispatch(addUser({
+//                 id: ref.key,
+//                 ...user
+//             }))
+//         })
+//     }
+// }
+
 function login(email, password) {
     return dispatch => {
         dispatch(request({ email }));

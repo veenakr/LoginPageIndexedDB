@@ -1,13 +1,42 @@
-
+const users = [];
 
 export function configureFakeBackend() {
 
-    let users = [
-        { id: 1, email: 'test', password: 'test', firstName: 'Test', lastName: 'User' },
-        { id: 2, email: 'veena.rakshu@gmail.com', password: 'test', firstName: 'Veena', lastName: 'KR' },
-        { id: 3, email: 'test2', password: 'test', firstName: 'Test2', lastName: 'User2' },
-        { id: 4, email: 'test3', password: 'test', firstName: 'Test3', lastName: 'User3' }
-    ];
+    let request = window.indexedDB.open("LoginPage", 1),
+            db,
+            tx,
+            store,
+            index;
+
+    request.onupgradeneeded = function(e) {
+        db = request.result
+    }
+
+    request.onerror = function(e) {
+        console.log("There was an error: "+ e.target.errorCode);
+    }
+
+    request.onsuccess = function(e) {
+        db = request.result;
+        tx = db.transaction("UserDataStore", "readwrite");
+        store = tx.objectStore("UserDataStore");
+        index = store.index("firstName");
+    
+        db.onerror = function(e) {
+            console.log("Error: "+e.target.errorCode);
+        }
+    
+        let q1 = store.getAll();
+    
+        q1.onsuccess = function() {
+            q1.result.map(data => users.push(data));
+        };
+    
+        tx.oncomplete = function() {
+            db.close()        
+        }
+    }
+
     let realFetch = window.fetch;
     window.fetch = function (url, opts) {
         return new Promise((resolve, reject) => {
@@ -29,6 +58,7 @@ export function configureFakeBackend() {
                         
                         // if login details are valid return user details and fake jwt token
                         let user = filteredUsers[0];
+                    
                         let responseJson = {
                             id: user.id,
                             email: user.email,
@@ -36,6 +66,8 @@ export function configureFakeBackend() {
                             lastName: user.lastName,
                             token: 'fake-jwt-token'
                         };
+
+                        
                         resolve({ ok: true, text: () => Promise.resolve(JSON.stringify(responseJson)) });
                     } else {
                         // else return error

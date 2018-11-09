@@ -11,6 +11,7 @@ import {store} from '../store/configureStore';
 
 const { Meta } = Card;
 
+
 class Table1 extends React.Component {
   state = {
     loading: true

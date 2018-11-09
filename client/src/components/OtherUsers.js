@@ -12,13 +12,19 @@ class OtherUsers extends React.Component {
         let filtersFirstName = []; 
         let filtersLastName = [];
         const users = store.getState();
-        var actualUser = users.authentication.user;
+        var actualUser = {
+            firstName: users.authentication.user.firstName,
+            lastName: users.authentication.user.lastName,
+            email: users.authentication.user.email,
+            id: users.authentication.user.id
+        };;
         actualUser.key = actualUser.id;
         delete actualUser['token'];
 
         var usersArr = users.users.items.filter(data => {
             delete data['password'];
-            data.key = data.id
+            delete data['confirmPassword'];
+            data.key = data.id;
             return JSON.stringify(data) !== JSON.stringify(actualUser)
         })
         usersArr.map(data => {
@@ -36,7 +42,6 @@ class OtherUsers extends React.Component {
             title: 'id',
             dataIndex: 'id',
             key: 'id',
-            defaultSortOrder: 'descend',
             sorter: (a,b) => a.id - b.id
           }, {
             title: 'email',
@@ -65,10 +70,6 @@ class OtherUsers extends React.Component {
           }];
 
           this.dataSource = usersArr;
-
-        //   const onChange = (pagination, filters, sorter) => {
-        //     console.log('params', pagination, filters, sorter);
-        //   }
     }
 
     render(){

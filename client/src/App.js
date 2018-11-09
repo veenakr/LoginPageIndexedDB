@@ -8,6 +8,7 @@ import SignUp from './components/SignUp';
 import Table from './components/Table';
 import OtherUsers from './components/OtherUsers';
 
+
 class App extends React.Component {
     render() {
       const user1 = localStorage.getItem('user');

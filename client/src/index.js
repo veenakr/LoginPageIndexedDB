@@ -6,7 +6,7 @@ import './styles/styles.css';
 import {store, persistor} from './store/configureStore';
 import { Provider } from 'react-redux';
 import { configureFakeBackend } from './helpers/_helpers';
-import { PersistGate } from 'redux-persist/integration/react'
+import { PersistGate } from 'redux-persist/integration/react';
 
 configureFakeBackend();
 
